@@ -2,6 +2,8 @@ package ${package.Controller};
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +27,9 @@ import ${superControllerClassPackage};
 <#else>
 @Controller
 </#if>
+@Api
 @RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@Slf4j
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>

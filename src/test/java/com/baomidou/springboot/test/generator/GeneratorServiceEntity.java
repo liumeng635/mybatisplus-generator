@@ -22,30 +22,29 @@ public class GeneratorServiceEntity {
 
     @Test
     public void generateCode() {
-        String packageName = "com.zynn.service.module.school";
+        String packageName = "com.ioun.asset.server";
         boolean serviceNameStartWithI = false;//user -> UserService, 设置成true: user -> IUserService
-//        generateByTables(serviceNameStartWithI, packageName, "school_be_invited_record","school_invite_record","school_member","school_popularity","school_popularity_inviter","school_popularity_like","school_popularity_list","school_subject");
-        generateByTables(serviceNameStartWithI, packageName, "school_popularity_pk_comment","school_popularity_pk");
+        generateByTables(serviceNameStartWithI, packageName, "asset_fund_order");
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://115.159.87.23:3306/yinian_school";
+        String dbUrl = "jdbc:mysql://120.78.210.239:3306/asset";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
-                .setUsername("depuser")
-                .setPassword("uibMmhQ%31")
+                .setUsername("root")
+                .setPassword("password")
                 .setDriverName("com.mysql.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
                 //.setCapitalMode(true)
-                .setSuperEntityClass("com.zynn.common.core.base.BaseEntity")
-                .setSuperEntityColumns(new String[] { "id", "create_time", "update_time", "create_user", "update_user"})
-                .setSuperMapperClass("com.zynn.common.core.base.BaseMapper")
-                .setSuperServiceClass("com.zynn.common.core.service.BaseService")
-                .setSuperServiceImplClass("com.zynn.common.core.service.impl.BaseServiceImpl")
-                .setSuperControllerClass("com.zynn.common.core.base.BaseController")
+                .setSuperEntityClass("com.ioun.common.config.base.BaseEntity")
+                .setSuperEntityColumns(new String[] {})
+                .setSuperMapperClass("com.ioun.common.config.base.BaseMapper")
+                .setSuperServiceClass("com.ioun.common.config.service.BaseService")
+                .setSuperServiceImplClass("com.ioun.common.config.service.impl.BaseServiceImpl")
+//                .setSuperControllerClass("com.zynn.common.core.base.BaseController")
                 .setRestControllerStyle(true)//设置成restController
                 .setEntityLombokModel(true)
                 .setDbColumnUnderline(true)
@@ -53,12 +52,13 @@ public class GeneratorServiceEntity {
                 .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
 
         config.setActiveRecord(false)
-                .setAuthor("刘天元")
+                .setAuthor("刘猛")
                 .setOutputDir("d:\\codeGen")
                 .setFileOverride(true)
                 .setEnableCache(false);
         if (!serviceNameStartWithI) {
             config.setServiceName("%sService");
+            config.setControllerName("%sServiceImpl");
         }
         new AutoGenerator().setGlobalConfig(config)
                 .setDataSource(dataSourceConfig)
@@ -66,9 +66,12 @@ public class GeneratorServiceEntity {
                 .setPackageInfo(
                         new PackageConfig()
                                 .setParent(packageName)
-                                .setController("controller")
-                                .setEntity("entity")
-                                .setMapper("dao")
+                                .setService("bisiness.service")
+                                .setServiceImpl("bisiness.service.impl")
+                                .setController("service")
+                                .setEntity("bisiness.entity")
+                                .setMapper("bisiness.persistence.dao")
+                                .setXml("bisiness.persistence.mapper")
                 ).execute();
     }
 
