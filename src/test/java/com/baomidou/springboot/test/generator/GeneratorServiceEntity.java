@@ -29,7 +29,7 @@ public class GeneratorServiceEntity {
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://120.78.210.239:3306/asset";
+        String dbUrl = "jdbc:mysql://120.0.0.0:3306/asset";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
